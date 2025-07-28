@@ -1,0 +1,1 @@
+export const SeatsPage = () => <div>Seats Page</div>;

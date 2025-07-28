@@ -1,0 +1,1 @@
+export const ChoosingTrainOrSeatsLayout = () => <div>ChoosingTrainOrSeatsLayout</div>;

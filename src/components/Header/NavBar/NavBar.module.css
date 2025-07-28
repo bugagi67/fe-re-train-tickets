@@ -1,0 +1,17 @@
+.nav_bar ul {
+    display: flex;
+    gap: 4%;
+    background-color: #292929;
+    /* padding: 0 13.5%; */
+    height: 9.4rem;
+    align-items: center;
+}
+
+.nav_bar ul button {
+    color: #fff;
+    font-size: 3rem;
+}
+
+.nav_bar ul button:hover {
+    color: #FFCA62;
+} 

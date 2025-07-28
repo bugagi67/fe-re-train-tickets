@@ -1,0 +1,46 @@
+.contacts_footer {
+  padding: 3rem;
+}
+
+.contacts_footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contacts_footer ul li:first-child {
+  margin-top: 2rem;
+}
+
+.contacts_footer li {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  font-size: 2.4rem;
+  font-weight: 400;
+  color: #ffffff;
+}
+
+.contacts_footer li img {
+  width: 3rem;
+  height: 3rem;
+  filter: grayscale(100%);
+  opacity: 0.7;
+}
+
+.contacts_footer li:hover img {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+.contacts_footer li a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.contacts_footer li a:hover {
+  text-decoration: underline;
+}

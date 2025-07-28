@@ -1,0 +1,8 @@
+.logo h1 {
+    font-size: 3.6rem;
+    color: #fff;
+}
+
+.logo h1:hover {
+    color: #FFCA62;
+}

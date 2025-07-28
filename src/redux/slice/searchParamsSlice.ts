@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import type { RootState } from "../store/store";
 
 const savedData = localStorage.getItem("search");
 
@@ -31,6 +32,13 @@ const searchParamsSlice = createSlice({
   },
 });
 
-export const { addOrChangeSearchParameter, swapCityId, removeSearchParams } = searchParamsSlice.actions;
+export const { addOrChangeSearchParameter, swapCityId, removeSearchParams } =
+  searchParamsSlice.actions;
+
+export const selectDepartureCity = (state: RootState) =>
+  state.search.from_city_id;
+export const selectArrivalCity = (state: RootState) => state.search.to_city_id;
+export const selecDepartureDate = (state: RootState) => state.search.date_start;
+export const selectArrivalDate = (state: RootState) => state.search.date_end;
 
 export default searchParamsSlice;
