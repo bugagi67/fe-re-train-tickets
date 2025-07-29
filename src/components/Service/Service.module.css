@@ -1,0 +1,54 @@
+.service {
+    background-image: url("./backgroundimage.png");
+    background-size: cover;
+    height: 57.5rem;
+    position: relative;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    color: #fff;
+}
+
+.service::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(176 116 8 / 68%);
+    z-index: 1;
+}
+
+.service>* {
+    position: relative;
+    z-index: 2;
+}
+
+.wrapper_service {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 60px;
+}
+
+.service_title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.wrapper_figure {
+    display: flex;
+    justify-content: center;
+    gap: 14rem;
+    margin-top: 10rem;
+    font-size: 2.4rem;
+    font-weight: 400;
+    color: #E5E5E5;
+    text-align: center;
+}
+
+figure {
+    max-width: 22rem;
+}
+
+.wrapper_figure :first-child {
+    max-width: 19rem;
+}

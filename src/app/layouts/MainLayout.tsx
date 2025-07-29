@@ -5,13 +5,13 @@ import { Bottom } from "../../components/Footer/Bottom/Bottom";
 
 export const MainLayout = () => {
     return (
-        <div className="layout_container">
-            <Header searchFormType={"main"}/>
+        <>
+            <Header searchFormType={"main"} />
             <main>
                 <Outlet />
             </main>
             <Footer />
             <Bottom />
-        </div>
+        </>
     )
 }

@@ -7,7 +7,7 @@ import styles from "./Contacts.module.css"
 export const Contacts = () => {
   return (
     <section className={styles.contacts_footer }>
-      <h4 className="footer-title">Свяжитесь с нами</h4>
+      <h4 className={styles.footer_title}>Свяжитесь с нами</h4>
       <ul>
         <li>
           <img src={phone} alt="Иконка телефона" />

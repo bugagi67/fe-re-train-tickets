@@ -1,10 +1,14 @@
+.nav_bar {
+    background-color: #292929;
+}
+
 .nav_bar ul {
     display: flex;
     gap: 4%;
-    background-color: #292929;
-    /* padding: 0 13.5%; */
     height: 9.4rem;
     align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .nav_bar ul button {
@@ -14,4 +18,4 @@
 
 .nav_bar ul button:hover {
     color: #FFCA62;
-} 
+}

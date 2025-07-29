@@ -1,0 +1,17 @@
+.about_as {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 0;
+}
+
+.wrapper_content {
+    padding: 0 2rem;
+    border-left: 1rem solid #FFA800;
+    font-size: 2.4rem;
+    font-weight: 400;
+    line-height: 100%;
+}
+
+.wrapper_content span {
+    font-weight: 700;
+}
