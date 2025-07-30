@@ -14,15 +14,15 @@
     margin-bottom: 1rem;
 }
 
-.wrapper-form {
+.wrapper_form {
     margin-bottom: 40px;
 }
 
-.wrapper-form .transparent-button {
+.wrapper_form .transparent-button {
     margin-top: 9rem;
 }
 
-.input-flex {
+.input_flex {
     display: flex;
     position: relative;
     justify-content: space-between;
@@ -30,12 +30,12 @@
     flex-wrap: wrap;
 }
 
-.wrapper-input {
+.wrapper_input {
     position: relative;
     width: 32.5rem;
 }
 
-.wrapper-input img {
+.wrapper_input img {
     position: absolute;
     right: 10px;
     top: 15px;
@@ -51,23 +51,23 @@
     text-transform: capitalize;
 }
 
-.swap-places {
+.swap_places {
     position: absolute;
     top: 20px;
     left: calc(50% - 12px);
 }
 
-.swap-places:hover {
+.swap_places:hover {
     background-color: rgba(255, 202, 98, 0.5);
     border-radius: 50%;
 }
 
-.wrapper-button {
+.wrapper_button {
     display: flex;
     justify-content: flex-end;
 }
 
-.search_form .wrapper-button button {
+.search_form .wrapper_button button {
     background-color: rgba(255, 168, 0, 1);
     width: 32.5rem;
 }
@@ -80,12 +80,12 @@
         margin-top: 15rem;
     }
 
-    .input-flex {
+    .input_flex {
         gap: 1.5rem;
     }
 
-    .wrapper-input,
-    .datepicker-wrapper {
+    .wrapper_input,
+    .datepicker_wrapper {
         width: 48%;
     }
 
@@ -93,7 +93,7 @@
         width: 100%;
     }
 
-    .search_form .wrapper-button button {
+    .search_form .wrapper_button button {
         width: 100%;
     }
 }
@@ -105,28 +105,28 @@
         margin-top: 10rem;
     }
 
-    .input-flex {
+    .input_flex {
         flex-direction: column;
         gap: 2rem;
     }
 
-    .wrapper-input,
-    .datepicker-wrapper {
+    .wrapper_input,
+    .datepicker_wrapper {
         width: 100%;
     }
 
-    .swap-places {
+    .swap_places {
         position: static;
         transform: rotate(90deg);
         margin: 0 auto;
         display: block;
     }
 
-    .search_form .wrapper-button {
+    .search_form .wrapper_button {
         justify-content: center;
     }
 
-    .search_form .wrapper-button button {
+    .search_form .wrapper_button button {
         width: 100%;
     }
 }
@@ -141,12 +141,12 @@
         font-size: 2.2rem;
     }
 
-    .custom-input {
+    .custom_input {
         font-size: 1.6rem;
         padding: 0 4rem 0 1.5rem;
     }
 
-    .calendar-icon {
+    .calendar_icon {
         font-size: 18px;
     }
 }
@@ -173,15 +173,15 @@
     margin-bottom: 1rem;
 }
 
-.wrapper-form {
+.wrapper_form {
     margin-bottom: 40px;
 }
 
-.wrapper-form .transparent-button {
+.wrapper_form .transparent_button {
     margin-top: 4rem;
 }
 
-.input-flex {
+.input_flex {
     display: flex;
     position: relative;
     justify-content: space-between;
@@ -189,12 +189,12 @@
     flex-wrap: wrap;
 }
 
-.wrapper-input {
+.wrapper_input {
     position: relative;
     width: 32.5rem;
 }
 
-.wrapper-input img {
+.wrapper_input img {
     position: absolute;
     right: 10px;
     top: 15px;
@@ -210,28 +210,28 @@
     text-transform: capitalize;
 }
 
-.swap-places {
+.swap_places {
     position: absolute;
     top: 20px;
     left: calc(50% - 12px);
 }
 
-.wrapper-button {
+.wrapper_button {
     display: flex;
     justify-content: flex-end;
 }
 
-.search_form_default .wrapper-button button {
+.search_form_default .wrapper_button button {
     background-color: rgba(255, 168, 0, 1);
     width: 32.5rem;
 }
 
-.search_form_default .wrapper-button button:hover {
+.search_form_default .wrapper_button button:hover {
     filter: drop-shadow(1px 2px 1px rgba(0, 0, 0, 0.25));
     color: #2D2B2F;
 }
 
-.search_form_default .wrapper-button button:active {
+.search_form_default .wrapper_button button:active {
     border: 1px solid #FFA800;
     background-color: transparent;
     color: #FFA800;
@@ -245,12 +245,12 @@
         margin-top: 15rem;
     }
 
-    .input-flex {
+    .input_flex {
         gap: 1.5rem;
     }
 
-    .wrapper-input,
-    .datepicker-wrapper {
+    .wrapper_input,
+    .datepicker_wrapper {
         width: 48%;
     }
 
@@ -258,7 +258,7 @@
         width: 100%;
     }
 
-    .search_form_default .wrapper-button button {
+    .search_form_default .wrapper_button button {
         width: 100%;
     }
 }
@@ -270,28 +270,28 @@
         margin-top: 10rem;
     }
 
-    .input-flex {
+    .input_flex {
         flex-direction: column;
         gap: 2rem;
     }
 
-    .wrapper-input,
-    .datepicker-wrapper {
+    .wrapper_input,
+    .datepicker_wrapper {
         width: 100%;
     }
 
-    .swap-places {
+    .swap_places {
         position: static;
         transform: rotate(90deg);
         margin: 0 auto;
         display: block;
     }
 
-    .search_form_default .wrapper-button {
+    .search_form_default .wrapper_button {
         justify-content: center;
     }
 
-    .search_form_default .wrapper-button button {
+    .search_form_default .wrapper_button button {
         width: 100%;
     }
 }
@@ -306,12 +306,12 @@
         font-size: 2.2rem;
     }
 
-    .custom-input {
+    .custom_input {
         font-size: 1.6rem;
         padding: 0 4rem 0 1.5rem;
     }
 
-    .calendar-icon {
+    .calendar_icon {
         font-size: 18px;
     }
 }

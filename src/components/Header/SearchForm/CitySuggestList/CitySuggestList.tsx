@@ -1,25 +1,43 @@
-import "./CitySuggestList.module.css";
+import styles from "./CitySuggestList.module.css";
 import { useDispatch } from "react-redux";
+import { addOrChangeFormParameter } from "../../../../redux/slice/searchFormSlice";
 import { addOrChangeSearchParameter } from "../../../../redux/slice/searchParamsSlice";
+import type { SetStateAction, Dispatch } from "react";
 
-export const CitySuggestList = ({ list, onSelectCity, type }) => {
+interface ListObject {
+  name: string,
+  _id: string,
+}
+
+interface CitySuggestListProps {
+  list: ListObject[],
+  onSelectCity: (cityName: string) => void,
+  type: string,
+  set: Dispatch<SetStateAction<ListObject[]>>
+}
+
+export const CitySuggestList = ({ list, onSelectCity, type, set }: CitySuggestListProps) => {
   const dispatch = useDispatch();
 
-  const hadleClick = (city, id) => {
-    onSelectCity(city);
+  const handleClick  = (city: ListObject) => {
+    onSelectCity(city.name);
     if (type === "whereFrom") {
-      dispatch(addOrChangeSearchParameter("from_city_id", id));
+      dispatch(addOrChangeFormParameter({name: "whereFromCity", value: city.name}));
+      dispatch(addOrChangeSearchParameter({name: "from_city_id", value: city._id}))
+      set([])
     } else {
-      dispatch(addOrChangeSearchParameter(id))
+      dispatch(addOrChangeFormParameter({name: "whereToCity", value: city.name}));
+      dispatch(addOrChangeSearchParameter({name: "to_city_id", value: city._id}))
+      set([])
     }
   };
 
   return (
-    <ul className="drop-down">
+    <ul className={styles.drop_down}>
       {list.map((city) => (
         <li
-          onClick={() => hadleClick(city.name, city._id)}
-          className="drop-down-item"
+          onClick={() => handleClick(city)}
+          className={styles.drop_down_item}
           key={city._id}
         >
           {city.name}

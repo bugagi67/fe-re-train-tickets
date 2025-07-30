@@ -1,0 +1,44 @@
+.drop_down {
+    position: absolute;
+    display: block;
+    font-size: 2rem;
+    top: 6rem;
+    color: rgba(41, 41, 41, 1);
+    background-color: rgba(245, 244, 246, 1);
+    width: 100%;
+    z-index: 10;
+}
+
+.drop_down_item {
+    padding: 1rem 1.5rem;
+}
+
+.drop_down_item::first-letter {.drop-down {
+    position: absolute;
+    display: block;
+    font-size: 2rem;
+    top: 6rem;
+    color: rgba(41, 41, 41, 1);
+    background-color: rgba(245, 244, 246, 1);
+    width: 100%;
+    z-index: 10;
+}
+
+.drop_down_item {
+    padding: 1rem 1.5rem;
+}
+
+.drop_down_item::first-letter {
+    text-transform: uppercase;
+}
+
+.drop_down_item:hover {
+    color: #8a8a8a;
+}
+
+    text-transform: uppercase;
+}
+
+.drop_down_item:hover {
+    color: #8a8a8a;
+}

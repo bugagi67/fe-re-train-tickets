@@ -5,9 +5,9 @@ import { store } from "../redux/store/store.js"
 import { App } from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  // <StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
-  </StrictMode>,
+  // </StrictMode>,
 )
