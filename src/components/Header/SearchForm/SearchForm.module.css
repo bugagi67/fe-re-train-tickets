@@ -65,6 +65,7 @@
 .wrapper_button {
     display: flex;
     justify-content: flex-end;
+    margin-top: 8rem;
 }
 
 .search_form .wrapper_button button {
@@ -73,7 +74,7 @@
 }
 
 
-@media (max-width: 1200px) {
+@media (max-width: 1490px) {
     .search_form {
         width: 90%;
         padding: 5rem 2rem;

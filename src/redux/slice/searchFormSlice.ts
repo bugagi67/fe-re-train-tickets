@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { RootState } from "../store/store";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { fetchSuitableCity } from "../thunks/asyncThunks";
 
@@ -22,7 +21,7 @@ const emptyState = {
 const initialState = savedData ? JSON.parse(savedData) : emptyState;
 
 const searchFormSlice = createSlice({
-  name: "searchParamsSlice",
+  name: "searchForm",
   initialState,
   reducers: {
     addOrChangeFormParameter(
@@ -38,7 +37,7 @@ const searchFormSlice = createSlice({
         state.whereFromCity,
       ];
     },
-    removeSearchParams() {
+    removeFormParams() {
       return emptyState;
     },
   },
@@ -58,16 +57,7 @@ const searchFormSlice = createSlice({
   },
 });
 
-export const { addOrChangeFormParameter, swapCity, removeSearchParams } =
+export const { addOrChangeFormParameter, swapCity, removeFormParams } =
   searchFormSlice.actions;
-
-export const selectDepartureCity = (state: RootState) =>
-  state.searchForm.whereFromCity;
-export const selectArrivalCity = (state: RootState) =>
-  state.searchForm.whereToCity;
-export const selecDepartureDate = (state: RootState) =>
-  state.searchForm.dateStartFrom;
-export const selectArrivalDate = (state: RootState) =>
-  state.searchForm.dateArrivalTo;
 
 export default searchFormSlice;

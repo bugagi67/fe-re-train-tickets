@@ -1,40 +1,74 @@
-import { useEffect, useRef, useState } from "react";
-import { format } from "date-fns";
+import {useEffect, useRef, useState} from "react";
+import {format} from "date-fns";
 
-import { CitySuggestList } from "./CitySuggestList/CitySuggestList";
-import { CustomDatePicker } from "./CustomDatePicker/CustomDatePicker"
-import { Button } from "../../../ui/Button/Button";
+import {CitySuggestList} from "./CitySuggestList/CitySuggestList";
+import {CustomDatePicker} from "./CustomDatePicker/CustomDatePicker"
+import {Button} from "../../../ui/Button/Button";
+import type {ListObject} from "./CitySuggestList/CitySuggestList";
 
-import { addOrChangeFormParameter, swapCity } from "../../../redux/slice/searchFormSlice";
-import { addOrChangeSearchParameter, swapCityId } from "../../../redux/slice/searchParamsSlice";
-import { getCitiesApi } from "./getCityApi/getCityApi";
+import {addOrChangeFormParameter, swapCity} from "../../../redux/slice/searchFormSlice";
+import {addOrChangeSearchParameter, swapCityId} from "../../../redux/slice/searchParamsSlice";
+import {getCitiesApi} from "./getCityApi/getCityApi";
 
 import geoPoint from "../../../assets/searchIcons/geoPoint.svg";
 import swapPlaces from "../../../assets/searchIcons/swapPlaces.svg"
 import styles from "./SearchForm.module.css"
-import { useDispatch } from "react-redux";
+import {useDispatch} from "react-redux";
 
 interface SearchFormProps {
   type: string;
 }
 
-export const SearchForm = ({ type }: SearchFormProps) => {
+export const SearchForm = ({type}: SearchFormProps) => {
   const [inputValueFrom, setInputValueFrom] = useState("");
   const [inputValueTo, setInputValueTo] = useState("");
 
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDateState, setStartDate] = useState<Date | null>(null);
+  const [endDateState, setEndDate] = useState<Date | null>(null);
 
   const [debouncedValueFrom, setDebouncedValueFrom] = useState("")
   const [debouncedValueTo, setDebouncedValueTo] = useState("")
 
-  const [showSuggestionsFrom, setShowSuggestionsFrom] = useState([]);
-  const [showSuggestionsTo, setShowSuggestionsTo] = useState([]);
+  const [showSuggestionsFrom, setShowSuggestionsFrom] = useState<ListObject[]>([]);
+  const [showSuggestionsTo, setShowSuggestionsTo] = useState<ListObject[]>([]);
 
-  const fromInputRef = useRef(null);
-  const toInputRef = useRef(null);
+  const [isCitySelectedFrom, setIsCitySelectedFrom] = useState(false);
+  const [isCitySelectedTo, setIsCitySelectedTo] = useState(false);
+
+
+  const fromInputRef = useRef<HTMLInputElement>(null);
+  const toInputRef = useRef<HTMLInputElement>(null);
+  const suggestionsFromRef = useRef<HTMLDivElement>(null);
+  const suggestionsToRef = useRef<HTMLDivElement>(null)
+
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      // Для поля "Откуда"
+      if (
+        fromInputRef.current &&
+        !fromInputRef.current.contains(event.target as Node)
+        && suggestionsFromRef.current
+        && !suggestionsFromRef.current.contains(event.target as Node)
+      ) {
+        setShowSuggestionsFrom([]);
+      }
+      // Для поля "Куда"
+      if (toInputRef.current
+        && !toInputRef.current.contains(event.target as Node)
+        && suggestionsToRef.current
+        && !suggestionsToRef.current.contains(event.target as Node)) {
+        setShowSuggestionsTo([]);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
 
   // SuitableCity From
@@ -45,14 +79,17 @@ export const SearchForm = ({ type }: SearchFormProps) => {
     return () => clearTimeout(handler)
   }, [inputValueFrom])
 
+// Для поля "Откуда"
   useEffect(() => {
     const getCities = async () => {
       if (debouncedValueFrom === "") {
         setShowSuggestionsFrom([]);
         return;
       }
+
       try {
-        const cities = await getCitiesApi(debouncedValueFrom);
+        // Передаем skip: true когда город выбран из списка
+        const cities = await getCitiesApi(debouncedValueFrom, isCitySelectedFrom);
         setShowSuggestionsFrom(cities);
       } catch (error) {
         console.error("Ошибка при загрузке городов:", error);
@@ -60,8 +97,8 @@ export const SearchForm = ({ type }: SearchFormProps) => {
       }
     };
 
-    getCities();
-  }, [debouncedValueFrom]);
+    void getCities();
+  }, [debouncedValueFrom, isCitySelectedFrom]);
 
 
   // SuitableCity To
@@ -72,14 +109,17 @@ export const SearchForm = ({ type }: SearchFormProps) => {
     return () => clearTimeout(handler)
   }, [inputValueTo])
 
+// Для поля "Куда"
   useEffect(() => {
     const getCities = async () => {
       if (debouncedValueTo === "") {
         setShowSuggestionsTo([]);
         return;
       }
+
       try {
-        const cities = await getCitiesApi(debouncedValueTo);
+        // Передаем skip: true когда город выбран из списка
+        const cities = await getCitiesApi(debouncedValueTo, isCitySelectedTo);
         setShowSuggestionsTo(cities);
       } catch (error) {
         console.error("Ошибка при загрузке городов:", error);
@@ -87,15 +127,19 @@ export const SearchForm = ({ type }: SearchFormProps) => {
       }
     };
 
-    getCities();
-  }, [debouncedValueTo]);
-
+    void getCities();
+  }, [debouncedValueTo, isCitySelectedTo]);
 
 
   // Свап городов по клику
   const handleSwapCities = () => {
     dispatch(swapCity())
     dispatch(swapCityId())
+    setShowSuggestionsFrom([]);
+    setShowSuggestionsTo([]);
+    const temp: string = inputValueFrom;
+    setInputValueFrom(inputValueTo);
+    setInputValueTo(temp);
   };
 
   return (
@@ -107,28 +151,32 @@ export const SearchForm = ({ type }: SearchFormProps) => {
           <div className={styles.input_flex}>
             <div className={styles.wrapper_input}>
               <input
+                ref={fromInputRef}
                 type="text"
                 value={inputValueFrom}
                 onChange={(e) => {
                   setInputValueFrom(e.target.value);
+                  setIsCitySelectedFrom(false);
                 }}
                 name="from_city_id"
                 placeholder="Откуда"
                 autoComplete="off"
               />
-              {showSuggestionsFrom && (
-                <div ref={fromInputRef}>
+              {showSuggestionsFrom.length > 0 && inputValueFrom.length > 0 && (
+                <div ref={suggestionsFromRef}>
                   <CitySuggestList
                     list={showSuggestionsFrom}
                     type={"whereFrom"}
                     onSelectCity={(city) => {
-                      setInputValueFrom(city)
+                      setInputValueFrom(city);
+                      setShowSuggestionsFrom([]);
+                      setIsCitySelectedFrom(true);
                     }}
-                    set={setShowSuggestionsFrom}
+
                   />
                 </div>
               )}
-              <img src={geoPoint} alt="" />
+              <img src={geoPoint} alt=""/>
             </div>
             <img
               className={styles.swap_places}
@@ -138,28 +186,31 @@ export const SearchForm = ({ type }: SearchFormProps) => {
             />
             <div className={styles.wrapper_input}>
               <input
+                ref={toInputRef}
                 type="text"
                 name="to_city_id"
                 placeholder="Куда"
                 value={inputValueTo}
                 onChange={(e) => {
                   setInputValueTo(e.target.value);
+                  setIsCitySelectedTo(false);
                 }}
                 autoComplete="off"
               />
-              {showSuggestionsTo && (
-                <div ref={toInputRef}>
+              {showSuggestionsTo.length > 0 && inputValueTo.length > 0 && (
+                <div ref={suggestionsToRef}>
                   <CitySuggestList
                     list={showSuggestionsTo}
                     type="whereTo"
                     onSelectCity={(city) => {
-                      setInputValueTo(city)
+                      setInputValueTo(city);
+                      setShowSuggestionsTo([]);
+                      setIsCitySelectedTo(true);
                     }}
-                    set={setShowSuggestionsTo}
                   />
                 </div>
               )}
-              <img src={geoPoint} alt="" />
+              <img src={geoPoint} alt=""/>
             </div>
           </div>
         </div>
@@ -167,26 +218,33 @@ export const SearchForm = ({ type }: SearchFormProps) => {
           <div>
             <h3>Дата</h3>
             <CustomDatePicker
-              startDate={startDate}
-              endDate={endDate}
+              startDate={startDateState}
+              endDate={endDateState}
               onChangeStart={(data: Date | null) => {
-                if (!data) return;
-                const formatDate = format(data, "yyyy-MM-dd")
-                setStartDate(formatDate)
-                dispatch(addOrChangeFormParameter({ name: "dateStartFrom", value: formatDate }));
-                dispatch(addOrChangeSearchParameter({ name: "date_start", value: formatDate }));
+                setStartDate(data);
+                if (data) {
+                  const formatDate = format(data, "yyyy-MM-dd");
+                  dispatch(addOrChangeFormParameter({name: "dateStartFrom", value: formatDate}));
+                  dispatch(addOrChangeSearchParameter({name: "date_start", value: formatDate}));
+                } else {
+                  dispatch(addOrChangeFormParameter({name: "dateStartFrom", value: ""}));
+                  dispatch(addOrChangeSearchParameter({name: "date_start", value: ""}));
+                }
               }}
               onChangeEnd={(data: Date | null) => {
-                if (!data) return;
-                const formatDate = format(data, "yyyy-MM-dd")
-                setEndDate(formatDate)
-                dispatch(addOrChangeFormParameter({ name: "dateArrivalTo", value: formatDate }));
-                dispatch(addOrChangeSearchParameter({ name: "date_end", value: formatDate }));
-
+                setEndDate(data);
+                if (data) {
+                  const formatDate = format(data, "yyyy-MM-dd");
+                  dispatch(addOrChangeFormParameter({name: "dateArrivalTo", value: formatDate}));
+                  dispatch(addOrChangeSearchParameter({name: "date_end", value: formatDate}));
+                } else {
+                  dispatch(addOrChangeFormParameter({name: "dateArrivalTo", value: ""}));
+                  dispatch(addOrChangeSearchParameter({name: "date_end", value: ""}));
+                }
               }}
             />
             <div className={styles.wrapper_button}>
-              <Button title="НАЙТИ БИЛЕТЫ" type="submit" />
+              <Button title="НАЙТИ БИЛЕТЫ" type="submit"/>
             </div>
           </div>
         </div>

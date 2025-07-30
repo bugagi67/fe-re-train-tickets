@@ -5,7 +5,6 @@ body {
     'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  margin: 0;
   background-color: #F7F5F9;
 }
 
@@ -68,7 +67,7 @@ button {
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1490px;
   margin: 0 auto;
 }
 

@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { RootState } from "../store/store";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 interface AddOrChangeParamsParameterPayload {
@@ -19,7 +18,7 @@ const emptyState = {
 const initialState = savedData ? JSON.parse(savedData) : emptyState;
 
 const searchParamsSlice = createSlice({
-  name: "searchParamsSlice",
+  name: "searchParams",
   initialState,
   reducers: {
     addOrChangeSearchParameter(
@@ -43,14 +42,5 @@ const searchParamsSlice = createSlice({
 
 export const { addOrChangeSearchParameter, swapCityId, removeSearchParams } =
   searchParamsSlice.actions;
-
-export const selectDepartureCity = (state: RootState) =>
-  state.searchParams.from_city_id;
-export const selectArrivalCity = (state: RootState) =>
-  state.searchParams.to_city_id;
-export const selecDepartureDate = (state: RootState) =>
-  state.searchParams.date_start;
-export const selectArrivalDate = (state: RootState) =>
-  state.searchParams.date_end;
 
 export default searchParamsSlice;

@@ -1,28 +1,28 @@
 import DatePicker from "react-datepicker";
-import { registerLocale } from "react-datepicker";
-import { ru } from "date-fns/locale/ru";
+import {registerLocale} from "react-datepicker";
+import {ru} from "date-fns/locale/ru";
 import calendar from "../../../../assets/searchIcons/calendar.svg"
 import "react-datepicker/dist/react-datepicker.css";
-import styles from "./CustomDatePicker.module.css";
+import "./CustomDatePicker.css";
 
 registerLocale("ru", ru);
 
 interface CustomDatePickerProps {
-  startDate: Date,
-  endDate: Date,
-  onChangeStart: () => void,
-  onChangeEnd: () => void,
+  startDate: Date | null,
+  endDate: Date | null,
+  onChangeStart: (date: Date | null) => void,
+  onChangeEnd: (date: Date | null) => void,
 }
 
 export const CustomDatePicker = ({
-  startDate,
-  endDate,
-  onChangeStart,
-  onChangeEnd,
-}: CustomDatePickerProps) => {
+                                   startDate,
+                                   endDate,
+                                   onChangeStart,
+                                   onChangeEnd,
+                                 }: CustomDatePickerProps) => {
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", gap: "3rem" }}>
-      <div className={styles.datepicker_wrapper}>
+    <div style={{display: "flex", justifyContent: "space-between", gap: "3rem"}}>
+      <div className="datepicker_wrapper">
         <DatePicker
           selected={startDate}
           selectsStart
@@ -30,15 +30,16 @@ export const CustomDatePicker = ({
           endDate={endDate}
           onChange={onChangeStart}
           placeholderText="ДД/ММ/ГГ"
-          className={styles.custom_input}
-          calendarClassName={styles.custom_calendar}
+          calendarClassName="custom_calendar"
+          wrapperClassName="datepicker_wrapper"
+          className="custom_input"
           dateFormat="dd.MM.yyyy"
           locale="ru"
           minDate={new Date()}
         />
-        <img src={calendar} className={styles.calendar_icon} />
+        <img src={calendar} className="calendar_icon" alt={"иконка календаря"}/>
       </div>
-      <div className={styles.datepicker_wrapper}>
+      <div className="datepicker_wrapper">
         <DatePicker
           selected={endDate}
           selectsEnd
@@ -47,12 +48,13 @@ export const CustomDatePicker = ({
           minDate={startDate || new Date()}
           onChange={onChangeEnd}
           placeholderText="ДД/ММ/ГГ"
-          className={styles.custom_input}
-          calendarClassName={styles.custom_calendar}
+          calendarClassName="custom_calendar"
+          wrapperClassName="datepicker_wrapper"
+          className="custom_input"
           dateFormat="dd.MM.yyyy"
           locale="ru"
         />
-        <img src={calendar} className={styles.calendar_icon} />
+        <img src={calendar} className="calendar_icon" alt={"иконка календаря"}/>
       </div>
     </div>
   );
