@@ -1,0 +1,19 @@
+.slider_filter_item {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.slider_filter_item svg {
+    margin-right: 35px;
+}
+
+.type_filter {
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: #fff;
+}
+
+.slider_filter {
+    margin-left: auto;
+}

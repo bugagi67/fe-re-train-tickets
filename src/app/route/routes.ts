@@ -16,7 +16,7 @@ export const routes: RouteObject[] = [
         },
       },
       {
-        path: "routes",
+        path: "trains",
         lazy: async () => {
           const { DefaultLayout } = await import("../layouts/DefaultLayout");
           return { Component: DefaultLayout };

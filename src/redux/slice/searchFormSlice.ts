@@ -1,6 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { fetchSuitableCity } from "../thunks/asyncThunks";
+import {createSlice} from "@reduxjs/toolkit";
+import type {PayloadAction} from "@reduxjs/toolkit";
 
 interface AddOrChangeFormParameterPayload {
   name: string;
@@ -28,7 +27,7 @@ const searchFormSlice = createSlice({
       state,
       action: PayloadAction<AddOrChangeFormParameterPayload>
     ) {
-      const { name, value } = action.payload;
+      const {name, value} = action.payload;
       state[name] = value;
     },
     swapCity(state) {
@@ -41,23 +40,9 @@ const searchFormSlice = createSlice({
       return emptyState;
     },
   },
-  extraReducers(builder) {
-    builder
-      .addCase(fetchSuitableCity.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchSuitableCity.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(fetchSuitableCity.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
-  },
 });
 
-export const { addOrChangeFormParameter, swapCity, removeFormParams } =
+export const {addOrChangeFormParameter, swapCity, removeFormParams} =
   searchFormSlice.actions;
 
 export default searchFormSlice;

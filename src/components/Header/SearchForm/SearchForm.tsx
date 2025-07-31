@@ -1,10 +1,12 @@
 import {useEffect, useRef, useState} from "react";
+import {useLocation, useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
 import {format} from "date-fns";
 
+import type {ListObject} from "./CitySuggestList/CitySuggestList";
 import {CitySuggestList} from "./CitySuggestList/CitySuggestList";
 import {CustomDatePicker} from "./CustomDatePicker/CustomDatePicker"
 import {Button} from "../../../ui/Button/Button";
-import type {ListObject} from "./CitySuggestList/CitySuggestList";
 
 import {addOrChangeFormParameter, swapCity} from "../../../redux/slice/searchFormSlice";
 import {addOrChangeSearchParameter, swapCityId} from "../../../redux/slice/searchParamsSlice";
@@ -13,13 +15,9 @@ import {getCitiesApi} from "./getCityApi/getCityApi";
 import geoPoint from "../../../assets/searchIcons/geoPoint.svg";
 import swapPlaces from "../../../assets/searchIcons/swapPlaces.svg"
 import styles from "./SearchForm.module.css"
-import {useDispatch} from "react-redux";
+import {useFindRoutes} from "../../../hooks/useFindRoutes.ts";
 
-interface SearchFormProps {
-  type: string;
-}
-
-export const SearchForm = ({type}: SearchFormProps) => {
+export const SearchForm = () => {
   const [inputValueFrom, setInputValueFrom] = useState("");
   const [inputValueTo, setInputValueTo] = useState("");
 
@@ -35,6 +33,8 @@ export const SearchForm = ({type}: SearchFormProps) => {
   const [isCitySelectedFrom, setIsCitySelectedFrom] = useState(false);
   const [isCitySelectedTo, setIsCitySelectedTo] = useState(false);
 
+  const [shouldFetch, setShouldFetch] = useState(false);
+
 
   const fromInputRef = useRef<HTMLInputElement>(null);
   const toInputRef = useRef<HTMLInputElement>(null);
@@ -43,10 +43,11 @@ export const SearchForm = ({type}: SearchFormProps) => {
 
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // Для поля "Откуда"
       if (
         fromInputRef.current &&
         !fromInputRef.current.contains(event.target as Node)
@@ -55,7 +56,6 @@ export const SearchForm = ({type}: SearchFormProps) => {
       ) {
         setShowSuggestionsFrom([]);
       }
-      // Для поля "Куда"
       if (toInputRef.current
         && !toInputRef.current.contains(event.target as Node)
         && suggestionsToRef.current
@@ -70,6 +70,18 @@ export const SearchForm = ({type}: SearchFormProps) => {
     };
   }, []);
 
+  const {data: routesList, loading, error} = useFindRoutes(shouldFetch);
+
+
+  useEffect(() => {
+    if (shouldFetch && routesList && !loading && !error) {
+      if (location.pathname === "/") {
+        navigate("/trains");
+      }
+      setShouldFetch(false);
+    }
+  }, [routesList, loading, error, shouldFetch, navigate, location.pathname]);
+
 
   // SuitableCity From
   useEffect(() => {
@@ -79,7 +91,6 @@ export const SearchForm = ({type}: SearchFormProps) => {
     return () => clearTimeout(handler)
   }, [inputValueFrom])
 
-// Для поля "Откуда"
   useEffect(() => {
     const getCities = async () => {
       if (debouncedValueFrom === "") {
@@ -109,7 +120,6 @@ export const SearchForm = ({type}: SearchFormProps) => {
     return () => clearTimeout(handler)
   }, [inputValueTo])
 
-// Для поля "Куда"
   useEffect(() => {
     const getCities = async () => {
       if (debouncedValueTo === "") {
@@ -118,7 +128,6 @@ export const SearchForm = ({type}: SearchFormProps) => {
       }
 
       try {
-        // Передаем skip: true когда город выбран из списка
         const cities = await getCitiesApi(debouncedValueTo, isCitySelectedTo);
         setShowSuggestionsTo(cities);
       } catch (error) {
@@ -130,8 +139,6 @@ export const SearchForm = ({type}: SearchFormProps) => {
     void getCities();
   }, [debouncedValueTo, isCitySelectedTo]);
 
-
-  // Свап городов по клику
   const handleSwapCities = () => {
     dispatch(swapCity())
     dispatch(swapCityId())
@@ -144,8 +151,11 @@ export const SearchForm = ({type}: SearchFormProps) => {
 
   return (
 
-    <div className={type === "main" ? styles.search_form : styles.search_form_default}>
-      <form>
+    <div className={location.pathname === "/" ? styles.search_form : styles.search_form_default}>
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        setShouldFetch(true)
+      }}>
         <div className={styles.wrapper_form}>
           <h3>Направление</h3>
           <div className={styles.input_flex}>
@@ -161,6 +171,7 @@ export const SearchForm = ({type}: SearchFormProps) => {
                 name="from_city_id"
                 placeholder="Откуда"
                 autoComplete="off"
+                required={true}
               />
               {showSuggestionsFrom.length > 0 && inputValueFrom.length > 0 && (
                 <div ref={suggestionsFromRef}>
@@ -196,6 +207,7 @@ export const SearchForm = ({type}: SearchFormProps) => {
                   setIsCitySelectedTo(false);
                 }}
                 autoComplete="off"
+                required={true}
               />
               {showSuggestionsTo.length > 0 && inputValueTo.length > 0 && (
                 <div ref={suggestionsToRef}>

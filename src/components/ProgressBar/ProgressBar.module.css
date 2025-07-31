@@ -1,0 +1,64 @@
+.progress_bar {
+    display: flex;
+    width: 100%;
+}
+
+.progress_step {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 20px 30px 15px 100px;
+    background-color: rgba(62, 60, 65, 1);
+    color: white;
+    width: 25%;
+    height: 100px;
+}
+
+.progress_step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -44px;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+    border-left: 45px solid rgba(62, 60, 65, 1);
+    z-index: 1;
+}
+
+.progress_step.active {
+    background-color: #FFA500;
+}
+
+.progress_step.active::after {
+    border-left-color: #FFA500;
+}
+
+.progress_step:not(:first-child)::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+    border-left: 45px solid white;
+}
+
+.step_number {
+    font-size: 3.6rem;
+    font-weight: 700;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    text-align: center;
+    margin-right: 3rem;
+}
+
+.step_text {
+    font-size: 3rem;
+    font-weight: 700;
+}

@@ -1,0 +1,52 @@
+.switch_toggle {
+    display: inline-block;
+    position: relative;
+    width: 72px;
+    height: 28px;
+}
+
+.switch_input {
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+
+.switch_toggle_slider {
+    position: absolute;
+    top: 6px;
+    bottom: 6px;
+    left: 5px;
+    right: 5px;
+    background-color: #FFFFFF;
+    border-radius: 2rem;
+    transition: .4s;
+}
+
+.switch_toggle_slider::before {
+    content: '';
+    position: absolute;
+    cursor: pointer;
+    top: -5px;
+    left: 0;
+    right: 0;
+    width: 26px;
+    height: 26px;
+    background-color: #C4C4C4;
+    border-radius: 50%;
+    transition: .4s;
+}
+
+.switch_input:focus+.switch_toggle_slider {
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.switch_input:checked+.switch_toggle_slider {
+    background-color: #FCDC9D;
+}
+
+.switch_input:checked+.switch_toggle_slider::before {
+    background-color: #FFA800;
+    transform: translateX(39px);
+    -webkit-transform: translateX(39px);
+    -moz-transform: translateX(39px);
+}

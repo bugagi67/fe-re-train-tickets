@@ -155,7 +155,7 @@
 /* Стили не на MAIN */
 
 .search_form_default {
-    width: 80%;
+    width: 100%;
     background-color: rgba(41, 41, 41, 0.8);
     padding: 8rem 2rem;
     margin: auto auto 0;
