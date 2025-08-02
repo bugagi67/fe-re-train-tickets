@@ -41,10 +41,19 @@ export const SearchForm = () => {
   const suggestionsFromRef = useRef<HTMLDivElement>(null);
   const suggestionsToRef = useRef<HTMLDivElement>(null)
 
-
+  const {fetchRoutes, loading, error, data: routesList} = useFindRoutes();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await fetchRoutes(); // вызываем запрос напрямую
+
+    if (location.pathname === "/") {
+      navigate("/trains");
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -69,9 +78,6 @@ export const SearchForm = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  const {data: routesList, loading, error} = useFindRoutes(shouldFetch);
-
 
   useEffect(() => {
     if (shouldFetch && routesList && !loading && !error) {
@@ -150,12 +156,8 @@ export const SearchForm = () => {
   };
 
   return (
-
     <div className={location.pathname === "/" ? styles.search_form : styles.search_form_default}>
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        setShouldFetch(true)
-      }}>
+      <form onSubmit={handleSubmit}>
         <div className={styles.wrapper_form}>
           <h3>Направление</h3>
           <div className={styles.input_flex}>

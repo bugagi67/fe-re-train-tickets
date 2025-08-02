@@ -1,0 +1,22 @@
+.icon_conveniences {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 20px;
+    margin-bottom: 1rem;
+}
+
+.icon_conveniences svg {
+    margin-left: 15px;
+    padding: 5px;
+}
+
+.icon_conveniences svg:hover {
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.wrapper_hint {
+    position: relative;
+}
+
+
+

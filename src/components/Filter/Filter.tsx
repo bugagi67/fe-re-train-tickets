@@ -6,16 +6,19 @@ import {SlidersFilter} from "./SlidersFilter/SlidersFilter";
 import {useShowApplyButton} from "./hooks/useShowApplyButton";
 import {ApplyButton} from "./ApplyButton/ApplyButton";
 import {useDispatch, useSelector} from "react-redux";
+import {useFindRoutes} from "../../hooks/useFindRoutes";
 import {updateSearchParamsIsChanged} from "../../redux/slice/searchParamsSlice";
 
 export const Filter = () => {
   const isShowButton = useShowApplyButton();
+  const {fetchRoutes} = useFindRoutes();
   // @ts-ignore
-  const filters = useSelector(state => state.filterAsideSlice);
+  const filters = useSelector(state => state.filterAside);
   const dispatch = useDispatch();
 
   const handleApplyButtonClick = () => {
     dispatch(updateSearchParamsIsChanged(filters))
+    fetchRoutes()
   };
 
   return (

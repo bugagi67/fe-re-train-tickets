@@ -1,0 +1,67 @@
+.last_ticket_item {
+    margin-bottom: 20px;
+    width: 360px;
+    height: 161px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 1);
+    padding: 15px;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+}
+.wrapper_last_ticket {
+    display: flex;
+    justify-content: space-between;
+}
+
+.last_ticket_item .arrival_info {
+    align-items: end;
+}
+
+.departure_info {
+    padding: 0;
+}
+
+.last_ticket_item .departure_city,
+.arrival_city {
+    font-size: 2rem;
+    font-weight: 400;
+    text-transform: capitalize;
+}
+
+.last_ticket_item .departure_railway_station,
+.arrival_railway_station {
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: #928F94;
+}
+
+.footer_last_ticket {
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer_last_ticket .icon_conveniences {
+    align-items: flex-end;
+    margin-left: -15px;
+}
+
+.last_ticket_price {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: baseline;
+}
+
+.last_ticket_price span {
+    display: flex;
+    flex-wrap: nowrap;
+    font-size: 3.6rem;
+    font-weight: 700;
+    color: #FFA800;
+}
+
+.last_ticket_price .text {
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: #928F94;
+}

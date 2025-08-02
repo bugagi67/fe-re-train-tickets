@@ -3,7 +3,7 @@ import {useDispatch} from "react-redux";
 import "./TimeSlider.css";
 import {addOrChangeFilterAsideParameter} from "../../../../redux/slice/filteredAsideSlice.ts";
 
-export const TimeSlider = ({type, title}: {type: string, title: string}) => {
+export const TimeSlider = ({type, title}: { type: string, title: string }) => {
   const MIN = 0;
   const MAX = 1440;
   const STEP = 1;
@@ -54,18 +54,26 @@ export const TimeSlider = ({type, title}: {type: string, title: string}) => {
             if (title === "Время отбытия") {
               if (type === "there") {
                 // @ts-ignore
-                dispatch(addOrChangeFilterAsideParameter("start_departure_hour_from", (Math.floor(val / 60))))
+                dispatch(addOrChangeFilterAsideParameter({
+                  name: "start_departure_hour_from", value: (Math.floor(val / 60))
+                }))
               } else if (type === "back") {
                 // @ts-ignore
-                dispatch(addOrChangeFilterAsideParameter("end_departure_hour_from", (Math.floor(val / 60))))
+                dispatch(addOrChangeFilterAsideParameter({
+                  name: "end_departure_hour_from", value: (Math.floor(val / 60))
+                }))
               }
             } else if (title === "Время прибытия") {
               if (type === "there") {
                 // @ts-ignore
-                dispatch(addOrChangeFilterAsideParameter("start_arrival_hour_from", (Math.floor(val / 60))));
+                dispatch(addOrChangeFilterAsideParameter({
+                  name: "start_arrival_hour_from", value: (Math.floor(val / 60))
+                }));
               } else if (type === "back") {
                 // @ts-ignore
-                dispatch(addOrChangeFilterAsideParameter("end_arrival_hour_from", (Math.floor(val / 60))));
+                dispatch(addOrChangeFilterAsideParameter({
+                  name: "end_arrival_hour_from", value: (Math.floor(val / 60))
+                }));
               }
             }
           }}
@@ -88,18 +96,26 @@ export const TimeSlider = ({type, title}: {type: string, title: string}) => {
             if (title === "Время отбытия") {
               if (type === "there") {
                 // @ts-ignore
-                dispatch(addOrChangeFilterAsideParameter("start_departure_hour_to", (Math.ceil(val / 60))));
+                dispatch(addOrChangeFilterAsideParameter({
+                  name: "start_departure_hour_to", value: (Math.ceil(val / 60))
+                }));
               } else if (type === "back") {
                 // @ts-ignore
-                dispatch(addOrChangeFilterAsideParameter("end_departure_hour_to", (Math.ceil(val / 60))));
+                dispatch(addOrChangeFilterAsideParameter({
+                  name: "end_departure_hour_to", value: (Math.ceil(val / 60))
+                }));
               }
             } else if (title === "Время прибытия") {
               if (type === "there") {
                 // @ts-ignore
-                dispatch(addOrChangeFilterAsideParameter("start_arrival_hour_to", (Math.ceil(val / 60))));
+                dispatch(addOrChangeFilterAsideParameter({
+                  name: "start_arrival_hour_to",
+                  value: (Math.ceil(val / 60))
+                }));
               } else if (type === "back") {
                 // @ts-ignore
-                dispatch(addOrChangeFilterAsideParameter("end_arrival_hour_to", (Math.ceil(val / 60))));
+                dispatch(addOrChangeFilterAsideParameter({name: "end_arrival_hour_to", value: (Math.ceil(val / 60))
+              }));
               }
             }
           }}

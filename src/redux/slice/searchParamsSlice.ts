@@ -4,7 +4,7 @@ import {fetchRoutes} from "../thunks/asyncThunks.ts";
 
 interface AddOrChangeParamsParameterPayload {
   name: string;
-  value: string;
+  value: any;
 }
 
 const savedData = localStorage.getItem("searchParams");

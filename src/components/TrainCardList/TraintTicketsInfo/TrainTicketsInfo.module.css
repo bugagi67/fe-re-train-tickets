@@ -1,0 +1,15 @@
+.train_ticket {
+    width: 959px;
+    min-height: 295px;
+    max-height: 354px;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(196, 196, 196, 1);
+    margin-bottom: 5rem;
+}
+
+.train_ticket:hover {
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.35);
+}

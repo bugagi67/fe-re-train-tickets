@@ -1,0 +1,22 @@
+.direction_train {
+    width: 197px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    background-color: #E4E0E9;
+}
+
+.number_train {
+    font-size: 2.4rem;
+    font-weight: 500;
+    color: #3E3C41;
+    margin: 15px 0;
+}
+
+.way {
+    font-size: 1.6rem;
+    font-weight: 400;
+    text-transform: capitalize;
+}

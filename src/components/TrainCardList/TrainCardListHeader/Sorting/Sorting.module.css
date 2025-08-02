@@ -1,0 +1,33 @@
+.sorted {
+    font-size: 1.8rem;
+    font-weight: 400;
+    position: relative;
+}
+
+.sorted span:not(.selected_value) {
+    color: #928F94;
+}
+
+.selected_value:hover {
+    cursor: pointer;
+}
+
+.drop_down_sort {
+    background-color: #F7F5F9;
+    position: absolute;
+    left: 135px;
+    top: -5px;
+}
+
+.drop_down_sort_item {
+    padding: 5px 7px;
+}
+
+.drop_down_sort_item:hover {
+    background-color: #FFCA62;
+    color: #fff;
+}
+
+.drop_down_sort .drop_down_sort_item:not(:last-child) {
+    border-bottom: 1px solid #E5E5E5;
+}

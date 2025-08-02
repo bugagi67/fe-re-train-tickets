@@ -1,0 +1,10 @@
+.number_tickets {
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: #928F94;
+}
+
+.quantity {
+    margin: 0 0.5rem;
+    cursor: pointer;
+}

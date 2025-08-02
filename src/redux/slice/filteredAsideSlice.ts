@@ -1,11 +1,4 @@
-import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
-
-interface AddOrChangeFilterAsideParameterPayload {
-  name: string;
-  value: string;
-}
-
-const savedData = localStorage.getItem("searchParams");
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 const emptyState = {
   date_start: null,
@@ -28,28 +21,25 @@ const emptyState = {
   end_arrival_hour_to: 24,
 };
 
-const initialState = savedData ? JSON.parse(savedData) : emptyState;
+// Убрали использование localStorage для начального состояния
+const initialState = emptyState;
 
-export const filterAsideSlice = createSlice({
-  name: "filterAsideSlice",
+const filterAsideSlice = createSlice({
+  name: "filterAside",
   initialState,
   reducers: {
     addOrChangeFilterAsideParameter(
       state,
-      action: PayloadAction<AddOrChangeFilterAsideParameterPayload>
+      action: PayloadAction<{ name: string; value: any }>
     ) {
-      const {name, value} = action.payload;
+      const { name, value } = action.payload;
+      // @ts-ignore
       state[name] = value;
     },
-    removeSearchParams() {
-      return emptyState;
-    },
+    removeSearchParams: () => emptyState,
   },
 });
 
-export const {
-  addOrChangeFilterAsideParameter,
-  removeSearchParams,
-} = filterAsideSlice.actions;
+export const { addOrChangeFilterAsideParameter, removeSearchParams } = filterAsideSlice.actions;
 
 export default filterAsideSlice;

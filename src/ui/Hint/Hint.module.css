@@ -1,0 +1,13 @@
+.hint {
+    padding: 8px 10px;
+    background-color: #E5E5E5;
+    position: absolute;
+    top: 35px;
+    border-radius: 5px;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    font-weight: 400;
+    min-width: 70px;
+    text-align: center;
+    white-space: nowrap;
+}

@@ -1,0 +1,75 @@
+.schedule_list {
+    padding: 40px 20px;
+    width: 479px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.train_route {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.departure_info,
+.arrival_info {
+    display: flex;
+    flex-direction: column;
+    width: 165px;
+    padding-left: 15px;
+}
+
+.wrapper_travel_time {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 10px;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.departure_time,
+.arrival_time {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    white-space: nowrap;
+}
+
+.departure_city,
+.arrival_city {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.departure_railway_station,
+.arrival_railway_station {
+    font-size: 14px;
+    font-weight: 400;
+    color: #928F94;
+    white-space: nowrap;
+}
+
+
+.travel_time {
+    font-size: 16px;
+    color: #928F94;
+    margin-bottom: 5px;
+    white-space: nowrap;
+}
+
+.wrapper_travel_time svg {
+    display: block;
+}
+
+.departure_info>div,
+.arrival_info>div {
+    text-align: left;
+}

@@ -10,23 +10,23 @@ export const SwitchToggle = ({type}: { type: string }) => {
   useEffect(() => {
     if (type === "Купе") {
       // @ts-ignore
-      dispatch(addOrChangeFilterAsideParameter("have_second_class", isToggle));
+      dispatch(addOrChangeFilterAsideParameter({name: "have_second_class", value: isToggle}));
     } else if (type === "Плацкарт") {
       // @ts-ignore
-      dispatch(addOrChangeFilterAsideParameter("have_third_class", isToggle));
+      dispatch(addOrChangeFilterAsideParameter({name: "have_third_class", value: isToggle}));
     } else if (type === "Сидячий") {
       // @ts-ignore
-      dispatch(addOrChangeFilterAsideParameter("have_fourth_class", isToggle));
+      dispatch(addOrChangeFilterAsideParameter({name: "have_fourth_class", value: isToggle}));
     } else if (type === "Люкс") {
       dispatch(
         // @ts-ignore
-        addOrChangeFilterAsideParameter("have_first_class", isToggle));
+        addOrChangeFilterAsideParameter({name: "have_first_class", value: isToggle}));
     } else if (type === "Wi-Fi") {
       // @ts-ignore
-      dispatch(addOrChangeFilterAsideParameter("have_wifi", isToggle));
+      dispatch(addOrChangeFilterAsideParameter({name: "have_wifi", value: isToggle}));
     } else if (type === "Экспресс") {
       // @ts-ignore
-      dispatch(addOrChangeFilterAsideParameter("have_express", isToggle));
+      dispatch(addOrChangeFilterAsideParameter({name: "have_express", value: isToggle}));
     }
   }, [isToggle, dispatch, type]);
 

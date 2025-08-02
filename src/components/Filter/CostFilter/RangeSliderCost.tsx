@@ -1,11 +1,9 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import "./RangeSliderCost.css";
-import { useDispatch } from "react-redux";
-import {
-  addOrChangeFilterAsideParameter
-} from "../../../redux/slice/filteredAsideSlice.ts";
+import {useDispatch} from "react-redux";
+import {addOrChangeFilterAsideParameter} from "../../../redux/slice/filteredAsideSlice.ts";
 
-export const RangeSliderCost = ({ min, max, step }: { min: any, max: any, step: any }) => {
+export const RangeSliderCost = ({min, max, step}: { min: any, max: any, step: any }) => {
   const [minValue, setMinValue] = useState(min);
   const [maxValue, setMaxValue] = useState(max);
   const [activeThumb, setActiveThumb] = useState(null);
@@ -28,10 +26,16 @@ export const RangeSliderCost = ({ min, max, step }: { min: any, max: any, step: 
       range.current.style.width = `${maxPercent - minPercent}%`;
     }
 
-    // @ts-ignore
-    dispatch(addOrChangeFilterAsideParameter("price_from", minValue));
-    // @ts-ignore
-    dispatch(addOrChangeFilterAsideParameter("price_to", maxValue));
+    dispatch(addOrChangeFilterAsideParameter({
+      name: "price_from",
+      value: minValue
+    }));
+
+    dispatch(addOrChangeFilterAsideParameter({
+      name: "price_to",
+      value: maxValue
+    }));
+
   }, [minValue, maxValue, getPercent, dispatch]);
 
   return (
@@ -77,8 +81,8 @@ export const RangeSliderCost = ({ min, max, step }: { min: any, max: any, step: 
         />
 
         <div className="slider">
-          <div className="slider__track" />
-          <div ref={range} className="slider__range" />
+          <div className="slider__track"/>
+          <div ref={range} className="slider__range"/>
         </div>
       </div>
 

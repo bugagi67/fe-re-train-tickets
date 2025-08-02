@@ -1,0 +1,40 @@
+.line_content {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 1.6rem;
+    font-weight: 400;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.popover_wrapper {
+    position: relative;
+}
+
+.type_places {
+    width: 7.2rem;
+    color: #3E3C41;
+}
+
+.number_seats {
+    width: 2.5rem;
+    font-weight: 500;
+    color: #FFA800;
+}
+
+.from {
+    color: #928F94;
+    margin-right: -10px;
+}
+
+.wrapper_cost {
+    width: 8rem;
+    text-align: right;
+}
+
+.minimum_cost {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #2D2B2F;
+    margin-right: 0.5rem;
+}

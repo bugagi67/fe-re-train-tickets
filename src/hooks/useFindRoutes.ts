@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import {fetchRoutes} from "../redux/thunks/asyncThunks.ts";
-import {useEffect} from "react";
+import {useMemo} from "react";
 
 interface SearchParamsState {
   loading: boolean;
@@ -19,30 +19,28 @@ interface RootState {
   searchParams: SearchParamsState;
 }
 
-export const useFindRoutes = (skip: boolean) => {
+export const useFindRoutes = () => { // убрали параметр skip
   const dispatch = useDispatch();
   const params = useSelector((state: RootState) => state.searchParams);
-
-
   const {loading, error, routesList, totalPages, currentPage, totalCount, ...otherParams} = params;
-  const filterParams = (filteredParams: { [s: string]: unknown; } | ArrayLike<unknown>) =>
-    Object.fromEntries(
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      Object.entries(filteredParams).filter(([_, v]) => v !== null && v !== undefined && v !== "")
-    );
 
-  const clearParams = filterParams(otherParams);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // @ts-ignore
-  const queryParams = new URLSearchParams(clearParams);
-  console.log(queryParams);
+  const queryParams = useMemo(() => {
+    const filterParams = (params: Record<string, unknown>) =>
+      Object.fromEntries(
+        Object.entries(params).filter(([_, v]) => v !== null && v !== undefined && v !== "")
+      );
 
-  useEffect(() => {
-    if (skip) {
-      // @ts-ignore
-      dispatch(fetchRoutes(queryParams));
-    }
-  }, [skip, queryParams, dispatch]);
+    const clearParams = filterParams(otherParams);
+    return new URLSearchParams(clearParams as Record<string, string>).toString();
+  }, [otherParams]);
 
-  return {data: routesList, loading, error, totalPages, currentPage, totalCount}
-}
+  return {
+    data: routesList,
+    loading,
+    error,
+    totalPages,
+    currentPage,
+    totalCount,
+    fetchRoutes: () => dispatch(fetchRoutes(queryParams))
+  };
+};

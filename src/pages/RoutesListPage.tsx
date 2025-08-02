@@ -1,10 +1,9 @@
-import {Filter} from "../components/Filter/Filter.tsx";
+import { TrainCardList} from "../components/TrainCardList/TrainCardList.tsx";
 
 export const RoutesListPage = () => {
   return (
     <>
-      <div>Routes List Page</div>
-      <Filter />
+      <TrainCardList />
     </>
   )
 }
