@@ -1,0 +1,19 @@
+.flex_wrapper_type {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.carriage_count {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(255, 168, 0, 0.44);
+    padding: 5px 30px;
+}
+
+.current_carriage {
+    background-color: rgba(255, 168, 0, 0.44);
+    padding: 30px;
+}

@@ -14,7 +14,7 @@ interface FilterAsideState {
 }
 
 interface SearchParamsState {
-  [key: string]: any;
+  [key: string ]: any;
 }
 
 interface RootState {

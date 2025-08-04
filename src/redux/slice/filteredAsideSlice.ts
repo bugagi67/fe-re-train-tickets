@@ -1,8 +1,8 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 const emptyState = {
-  date_start: null,
-  date_start_arrival: null,
+  date_start: "",
+  date_start_arrival: "",
   have_second_class: null,
   have_third_class: null,
   have_fourth_class: null,

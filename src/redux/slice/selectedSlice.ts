@@ -1,5 +1,5 @@
-import {createSlice} from "@reduxjs/toolkit";
-import {fetchSelectTrain} from "../thunks/asyncThunks.ts";
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchSelectTrain } from "../thunks/asyncThunks.ts";
 
 type Data = Array<{
   _id: string;
@@ -25,39 +25,44 @@ interface SelectedSlice {
   loading: boolean,
   error: any,
   data: Data | null,
+  routeData: any,
 }
 
 const initialState: SelectedSlice = {
   loading: false,
   error: null,
   data: null,
+  routeData: null,
 };
 
-export const selectedSlice = createSlice({
+export const selectedSlice = createSlice( {
   name: "selectedTrain",
   initialState,
   reducers: {
-    setData: (state, action) => {
+    setData: ( state, action ) => {
       state.data = action.payload;
     },
+    setRouteData: ( state, action ) => {
+      state.routeData = action.payload;
+    }
   },
-  extraReducers(builder) {
-    builder.addCase(fetchSelectTrain.pending, (state) => {
+  extraReducers( builder ) {
+    builder.addCase( fetchSelectTrain.pending, ( state ) => {
       state.loading = true;
       state.error = null;
-    }).addCase(fetchSelectTrain.fulfilled, (state, action) => {
+    } ).addCase( fetchSelectTrain.fulfilled, ( state, action ) => {
       state.data = action.payload;
       state.loading = false;
       state.error = null;
-    }).addCase(fetchSelectTrain.rejected, (state, action) => {
+    } ).addCase( fetchSelectTrain.rejected, ( state, action ) => {
       state.error = action.payload;
       state.loading = false;
-    })
+    } )
   }
-});
+} );
 
 export const {
-  setData,
+  setData, setRouteData
 } = selectedSlice.actions;
 
 export default selectedSlice;

@@ -1,18 +1,18 @@
-import { useSelector, useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { setCurrentPage } from "../../../../redux/slice/searchParamsSlice";
-import { PaginationItem } from "@mui/material";
+import {setCurrentPage} from "../../../../redux/slice/searchParamsSlice";
+import {PaginationItem} from "@mui/material";
+import {useFindRoutes} from "../../../../hooks/useFindRoutes.ts";
 
 export const TrainPagination = () => {
-  const { totalPages, currentPage } = useSelector(
-    // @ts-ignore
-    (state) => state.searchParams
-  );
+  const {totalPages, currentPage} = useSelector((state: any) => (state.searchParams));
+  const {fetchRoutes} = useFindRoutes();
   const dispatch = useDispatch();
 
   const handleClickPage = (_e: any, value: any) => {
     dispatch(setCurrentPage(value));
+    fetchRoutes();
   };
 
   return (

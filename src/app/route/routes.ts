@@ -23,65 +23,25 @@ export const routes: RouteObject[] = [
         },
         children: [
           {
-            ...({
-              lazy: async () => {
-                const { FilterLayouts } = await import(
-                  "../layouts/FilterLayouts"
-                );
-                return { Component: FilterLayouts };
-              },
-              children: [
-                {
-                  index: true,
-                  lazy: async () => {
-                    const { RoutesListPage } = await import(
-                      "../../pages/RoutesListPage"
-                    );
-                    return { Component: RoutesListPage };
-                  },
-                },
-                {
-                  path: ":id/seats",
-                  lazy: async () => {
-                    const { ChoosingTrainOrSeatsLayout } = await import(
-                      "../layouts/ChoosingTrainOrSeatsLayout"
-                    );
-                    return { Component: ChoosingTrainOrSeatsLayout };
-                  },
-                  children: [
-                    {
-                      index: true,
-                      lazy: async () => {
-                        const { SeatsPage } = await import(
-                          "../../pages/SeatsPage"
-                        );
-                        return { Component: SeatsPage };
-                      },
-                    },
-                    {
-                      path: "registration",
-                      lazy: async () => {
-                        const { TicketRegistrationLayout } = await import(
-                          "../layouts/TicketRegistrationLayout"
-                        );
-                        return { Component: TicketRegistrationLayout };
-                      },
-                      children: [
-                        {
-                          index: true,
-                          lazy: async () => {
-                            const { RegistrationPage } = await import(
-                              "../../pages/RegistrationPage"
-                            );
-                            return { Component: RegistrationPage };
-                          },
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            } as unknown as RouteObject),
+            index: true,
+            lazy: async () => {
+              const { RoutesListPage } = await import("../../pages/RoutesListPage");
+              return { Component: RoutesListPage };
+            },
+          },
+          {
+            path: ":id/seats",
+            lazy: async () => {
+              const { SeatsPage } = await import("../../pages/SeatsPage");
+              return { Component: SeatsPage };
+            },
+          },
+          {
+            path: ":id/seats/registration",
+            lazy: async () => {
+              const { RegistrationPage } = await import("../../pages/RegistrationPage");
+              return { Component: RegistrationPage };
+            },
           },
         ],
       },

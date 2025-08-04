@@ -24,7 +24,7 @@ const filterParamsKeys = (params: any) =>
   );
 
 export const useFindSeats = (id: string, skip: boolean) => {
-  const params = useSelector((state) => state.filterAsideSlice);
+  const params = useSelector((state) => state.filterAside);
   const selectedTrain = useSelector((state: any) => state.selectedTrain?.data);
   const dispatch = useDispatch();
 

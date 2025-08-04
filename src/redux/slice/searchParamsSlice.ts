@@ -13,6 +13,7 @@ const emptyState = {
   loading: false,
   error: null,
   routesList: [],
+
   // Для пагинации
   totalCount: 0,
   totalPages: 0,
@@ -25,6 +26,16 @@ const emptyState = {
   // Необязательные даты
   date_start: "", //Дата отбытия туда (в формате YYYY-MM-DD; например 2030-03-01) //string
   date_end: "", //Дата отбытия обратно (в формате YYYY-MM-DD; например 2030-03-01) //string
+  date_start_arrival: "",
+  date_end_arrival: "",
+
+  // Необязательные булевы значения (используем null, если не выбрано)
+  have_first_class: null,
+  have_second_class: null,
+  have_third_class: null,
+  have_fourth_class: null,
+  have_wifi: null,
+  have_express: null,
 
   // Необязательные числа, которые имеют дефолтное "отсутствующее" значение
   price_from: 0,
@@ -63,10 +74,6 @@ const searchParamsSlice = createSlice({
         state.from_city_id,
       ];
     },
-    setTotalCount: (state, action) => {
-      state.totalCount = action.payload;
-      state.totalPages = Math.ceil(state.totalCount / state.limit);
-    },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload;
       state.offset =
@@ -95,6 +102,8 @@ const searchParamsSlice = createSlice({
       state.error = null;
     }).addCase(fetchRoutes.fulfilled, (state, action) => {
       state.routesList = action.payload;
+      state.totalCount = action.payload.total_count;
+      state.totalPages = Math.ceil(state.totalCount / state.limit);
       state.loading = false;
       state.error = null;
     }).addCase(fetchRoutes.rejected, (state, action) => {
@@ -107,7 +116,6 @@ const searchParamsSlice = createSlice({
 export const {
   addOrChangeSearchParameter,
   swapCityId,
-  setTotalCount,
   setCurrentPage,
   updateSearchParamsIsChanged,
   removeSearchParams

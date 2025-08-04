@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from "react";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, matchPath} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {format} from "date-fns";
 
@@ -48,9 +48,13 @@ export const SearchForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await fetchRoutes(); // вызываем запрос напрямую
+    await fetchRoutes();
 
     if (location.pathname === "/") {
+      navigate("/trains");
+    }
+
+    if (matchPath("/trains/:id/seats", location.pathname)) {
       navigate("/trains");
     }
   };

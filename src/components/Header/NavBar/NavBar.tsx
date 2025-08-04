@@ -8,8 +8,8 @@ export const NavBar = () => {
   const handleNavClick = (anchor: string) => {
     if (location.pathname === "/") {
       window.location.hash = anchor;
-    } else if (location.pathname === "/search") {
-      if (anchor === "#about-as" || anchor === "#contacts") {
+    } else if (location.pathname === "/trains") {
+      if (anchor === "#contacts") {
         window.location.hash = anchor;
       } else {
         navigate(`/${anchor}`);
