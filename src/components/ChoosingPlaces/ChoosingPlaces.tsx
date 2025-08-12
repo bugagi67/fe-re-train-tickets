@@ -11,10 +11,10 @@ export const ChoosingPlaces = () => {
   console.log( data );
 
   return (
-    <>
+    <div style={{width: '960px', backgroundColor: '#FFFFFF'}}>
       <ChoosingPlacesHeader/>
       <NumberOfTickets />
       <CarriageMap />
-    </>
+    </div>
   )
 }

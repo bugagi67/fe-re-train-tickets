@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchSelectTrain } from "../thunks/asyncThunks.ts";
+import { calculateAvailableSeats } from "../../components/ChoosingPlaces/helpers/calculateAvailableSeats.ts";
 
 type Data = Array<{
   _id: string;
@@ -26,6 +27,10 @@ interface SelectedSlice {
   error: any,
   data: Data | null,
   routeData: any,
+  currentCarriage: any,
+  allSeats: number,
+  topSeats: number,
+  bottomSeats: number,
 }
 
 const initialState: SelectedSlice = {
@@ -33,6 +38,10 @@ const initialState: SelectedSlice = {
   error: null,
   data: null,
   routeData: null,
+  currentCarriage: null,
+  allSeats: 0,
+  topSeats: 0,
+  bottomSeats: 0,
 };
 
 export const selectedSlice = createSlice( {
@@ -52,6 +61,10 @@ export const selectedSlice = createSlice( {
       state.error = null;
     } ).addCase( fetchSelectTrain.fulfilled, ( state, action ) => {
       state.data = action.payload;
+      state.currentCarriage = action.payload[ 0 ]
+      state.allSeats = calculateAvailableSeats( state.currentCarriage.seats, 'all' )
+      state.topSeats = calculateAvailableSeats( state.currentCarriage.seats, 'top' )
+      state.bottomSeats = calculateAvailableSeats( state.currentCarriage.seats, 'bottom' )
       state.loading = false;
       state.error = null;
     } ).addCase( fetchSelectTrain.rejected, ( state, action ) => {

@@ -1,10 +1,16 @@
 import { Button } from "../../../ui/Button/Button.tsx";
 import { DetailedRoute } from "./DetailedRoute/DetailedRoute.tsx";
 
-export const ChoosingPlacesHeader = ( ) => {
+export const ChoosingPlacesHeader = () => {
   return (
-    <div style={ { display: "flex", flexDirection: "column" } }>
-      <div style={ { display: "flex", justifyContent: "space-between", alignItems: "center", gap: "10px" } }>
+    <div style={ { display: "flex", flexDirection: "column", width: "100%" } }>
+      <div style={ {
+        display: "flex",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        gap: "10px",
+        padding: "30px 20px"
+      } }>
         <svg
           width="76"
           height="60"
@@ -22,7 +28,7 @@ export const ChoosingPlacesHeader = ( ) => {
         <Button title={ "Выбрать другой поезд" } type={ "button" } style={ { border: "1px solid #292929" } }/>
       </div>
       <div>
-        <DetailedRoute />
+        <DetailedRoute/>
       </div>
     </div>
   )
