@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 export const AdditionalOptionsIcons = () => {
-  const { data } = useSelector( state => state.selectedSlice );
+  // const { data } = useSelector( state => state.selectedSlice );
   // const isLinenIncludes = data.coach
 
   // Состояние при клике по иконке
