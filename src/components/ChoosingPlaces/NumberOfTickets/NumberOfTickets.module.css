@@ -28,6 +28,12 @@
     border-radius: 5px;
 }
 
+.title_component {
+    padding: 40px 20px 0;
+    font-size: 3rem;
+    font-weight: 700;
+}
+
 .placeholder {
     font-size: 1.8rem;
     font-weight: 400;

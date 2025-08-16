@@ -1,6 +1,6 @@
 interface IProps {
   index: number,
-  available: boolean
+  available: boolean | "active"
 }
 
 export const calculateAvailableSeats = ( arr: IProps[], type: string ) => {

@@ -1,9 +1,6 @@
 import { useState } from "react";
-// import { useSelector } from "react-redux";
 
 export const AdditionalOptionsIcons = () => {
-  // const { data } = useSelector( state => state.selectedSlice );
-  // const isLinenIncludes = data.coach
 
   // Состояние при клике по иконке
   const [ isCondition, setIsCondition ] = useState( false );
@@ -19,7 +16,7 @@ export const AdditionalOptionsIcons = () => {
 
 
   return (
-    <div style={{display:"flex", flexDirection:"column", gap: "20px", marginRight: "40px"}}>
+    <div style={ { display: "flex", flexDirection: "column", gap: "20px", marginRight: "40px" } }>
       <div style={ { fontSize: "1.8rem", fontWeight: "400", color: "#928F94" } }>Обслуживание ФПК</div>
       <div style={ { display: "flex", gap: "15px" } }>
         <svg width="36" height="35" viewBox="0 0 36 35"

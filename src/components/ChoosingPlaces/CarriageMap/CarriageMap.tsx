@@ -4,23 +4,23 @@ import { AdditionalOptionsIcons } from "./AdditionalOptionsIcons/AdditionalOptio
 import { TypeOfCarriage } from "./TypeOfCarriage/TypeOfCarriage.tsx";
 import { randomInteger } from "../../../utils/randomInteger.ts";
 import { calculateAvailableSeats } from "../helpers/calculateAvailableSeats.ts";
-import { Map } from "./Map/Map.tsx";
+import type { IData } from "../../../redux/slice/selectedSlice.ts";
+import type { RootState } from '../../../redux/store/store.ts'
+import { Map } from "./Map/Map.tsx"
 
 export const CarriageMap = () => {
-  const { data } = useSelector( state => state.selectedSlice )
-  const { currentCarriage } = useSelector( state => state.selectedSlice );
+  const { data, currentCarriage } = useSelector( ( state: RootState ) => state.selectedSlice )
   if ( !data ) return <div>Данные о поезде отсутствуют</div>
-
-  const top = calculateAvailableSeats( currentCarriage.seats, "top" );
-  console.log( top );
+  if ( !currentCarriage ) return <div>Выберите вагон</div>
 
   return (
     <div>
       <TypeOfCarriage/>
       <div className={ styles.carriage_count }>
-        <div><span className={ styles.carriage }>Вагоны</span>{ data.map( item => <span
-          className={ styles.carriage_name }
-          key={ item.coach._id }>{ item.coach.name }</span> ) }</div>
+        <div><span className={ styles.carriage }>Вагоны</span>{ data.map( ( item: IData ) =>
+          <span
+            className={ styles.carriage_name }
+            key={ item.coach._id }>{ item.coach.name }</span> ) }</div>
         <div className={ styles.description_carriage }>Нумерация вагонов начинается с головы поезда</div>
       </div>
       <div className={ styles.train_info }>
@@ -31,12 +31,12 @@ export const CarriageMap = () => {
             fontSize: '2.4rem',
             width: "190px",
             height: "160px"
-          } }>{ currentCarriage.coach.name }</span>
+          } }>{ currentCarriage?.coach.name }</span>
         </div>
-        <div>
+        <div className={ styles.coast_wrapper }>
           <div className={ styles.seats }>Места <span>{ calculateAvailableSeats( currentCarriage.seats, "all" ) }</span>
           </div>
-          { currentCarriage.coach.class_type !== "first" ?
+          { currentCarriage?.coach.class_type !== "first" ?
             <>
               <div
                 className={ styles.location_places }>Верхние <span>{ calculateAvailableSeats( currentCarriage.seats, "top" ) }</span>
@@ -46,12 +46,12 @@ export const CarriageMap = () => {
               </div>
             </> : "" }
         </div>
-        <div>
+        <div className={ styles.coast_wrapper }>
           <div className={ styles.cost }>Стоимость</div>
-          { currentCarriage.coach.class_type !== "first" ?
+          { currentCarriage?.coach.class_type !== "first" ?
             <>
               <div className={ styles.number_cost }>
-                { currentCarriage.coach.top_price }
+                { currentCarriage?.coach.top_price }
                 <svg
                   style={ { marginLeft: "10px" } }
                   width="16"
@@ -67,7 +67,7 @@ export const CarriageMap = () => {
                 </svg>
               </div>
               <div className={ styles.number_cost }>
-                { currentCarriage.coach.bottom_price }
+                { currentCarriage?.coach.bottom_price }
                 <svg style={ { marginLeft: "10px" } }
                      width="16"
                      height="19"
@@ -81,7 +81,8 @@ export const CarriageMap = () => {
                   />
                 </svg>
               </div>
-            </> : <div>{ currentCarriage.coach.price }
+            </> : <div className={ styles.number_cost }>
+              { currentCarriage.coach.price }
               <svg
                 style={ { marginLeft: "10px" } }
                 width="16"
@@ -97,19 +98,14 @@ export const CarriageMap = () => {
               </svg>
             </div>
           }
-
         </div>
         <AdditionalOptionsIcons/>
       </div>
       <div style={ { display: 'flex', flexDirection: "column", justifyContent: "center", alignItems: 'flex-end' } }>
         <div className={ styles.currently_choosing_seats }>
           <div>{ randomInteger( 1, 15 ) } человек выбирают места в этом поезде</div>
-          <div></div>
         </div>
-        <div style={ { width: "100%" } }>
-
-          <Map/>
-        </div>
+        <Map type={ currentCarriage.coach.class_type } seats={ currentCarriage.seats }/>
       </div>
     </div>
   )

@@ -4,10 +4,9 @@ import styles from "./NumberOfTickets.module.css";
 export const NumberOfTickets = () => {
   const { allSeats } = useSelector( state => state.selectedSlice );
 
-
   return (
     <>
-      <h1>Количество билетов</h1>
+      <h1 className={ styles.title_component }>Количество билетов</h1>
       <div className={ styles.wrapper_number_of_tickets }>
         <div className={ styles.number_of_tickets_item }>
           <div>

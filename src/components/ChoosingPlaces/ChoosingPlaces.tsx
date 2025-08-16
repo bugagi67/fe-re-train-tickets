@@ -8,13 +8,11 @@ export const ChoosingPlaces = () => {
 
   if ( !data ) <div>Загрузка...</div>
 
-  console.log( data );
-
   return (
-    <div style={{width: '960px', backgroundColor: '#FFFFFF'}}>
+    <div style={ { width: '960px', backgroundColor: '#FFFFFF' } }>
       <ChoosingPlacesHeader/>
-      <NumberOfTickets />
-      <CarriageMap />
+      <NumberOfTickets/>
+      <CarriageMap/>
     </div>
   )
 }

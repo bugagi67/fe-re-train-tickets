@@ -1,11 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { fetchSelectTrain } from "../thunks/asyncThunks.ts";
 import { calculateAvailableSeats } from "../../components/ChoosingPlaces/helpers/calculateAvailableSeats.ts";
 
-type Data = Array<{
+export type Data = Array<IData>;
+
+export type IData = {
+  coach: ICoach;
+  seats: ISeats;
+};
+
+export type ICoach = {
   _id: string;
   name: string;
-  class_type: 'first';
+  class_type: "first" | "second" | "third" | "fourth";
   have_wifi: boolean;
   have_air_conditioning: boolean;
   price: number;
@@ -16,22 +23,116 @@ type Data = Array<{
   wifi_price: number;
   avaliable_seats: number;
   is_linens_included: boolean;
-  seats: Array<{
-    index: number;
-    available: boolean;
-  }>;
+};
+
+export type ISeats = Array<{
+  index: number;
+  available: boolean | "active";
 }>;
 
-interface SelectedSlice {
-  loading: boolean,
-  error: any,
-  data: Data | null,
-  routeData: any,
-  currentCarriage: any,
-  allSeats: number,
-  topSeats: number,
-  bottomSeats: number,
-}
+export type RouteData = {
+  total_count: number;
+  items: [
+    {
+      have_first_class: boolean;
+      have_second_class: boolean;
+      have_third_class: boolean;
+      have_fourth_class: boolean;
+      have_wifi: boolean;
+      have_air_conditioning: boolean;
+      is_express: boolean;
+      min_price: number;
+      arrival: IRoute;
+      departure: IRoute;
+      total_avaliable_seats: number;
+    }
+  ];
+};
+
+export type IRoute = {
+  _id: string;
+  have_first_class: boolean;
+  have_second_class: boolean;
+  have_third_class: boolean;
+  have_fourth_class: boolean;
+  have_wifi: boolean;
+  have_air_conditioning: boolean;
+  train: {
+    _id: string;
+    name: string;
+  };
+  from: {
+    railway_station_name: string;
+    city: {
+      _id: string;
+      name: string;
+    };
+    datetime: number;
+  };
+  to: {
+    railway_station_name: string;
+    city: {
+      _id: string;
+      name: string;
+    };
+    datetime: number;
+  };
+  min_price: number;
+  duration: number;
+  price_info: {
+    first: {
+      price: number;
+      top_price: number;
+      bottom_price: number;
+      side_price: number;
+      linens_price: number;
+      wifi_price: number;
+    };
+    second: {
+      price: number;
+      top_price: number;
+      bottom_price: number;
+      side_price: number;
+      linens_price: number;
+      wifi_price: number;
+    };
+    third: {
+      price: number;
+      top_price: number;
+      bottom_price: number;
+      side_price: number;
+      linens_price: number;
+      wifi_price: number;
+    };
+    fourth: {
+      price: number;
+      top_price: number;
+      bottom_price: number;
+      side_price: number;
+      linens_price: number;
+      wifi_price: number;
+    };
+  };
+  seats_info: {
+    first: number;
+    second: number;
+    third: number;
+    fourth: number;
+  };
+};
+
+export type SelectedSlice = {
+  loading: boolean;
+  error: unknown | null;
+  data: Data | null;
+  routeData: RouteData | null;
+  currentCarriage: IData | null;
+  allSeats: number | null;
+  topSeats: number | null;
+  bottomSeats: number | null;
+  departure: number[];
+  arrival: number[];
+};
 
 const initialState: SelectedSlice = {
   loading: false,
@@ -42,40 +143,67 @@ const initialState: SelectedSlice = {
   allSeats: 0,
   topSeats: 0,
   bottomSeats: 0,
+  departure: [],
+  arrival: [],
 };
 
-export const selectedSlice = createSlice( {
+export const selectedSlice = createSlice({
   name: "selectedTrain",
   initialState,
   reducers: {
-    setData: ( state, action ) => {
-      state.data = action.payload;
-    },
-    setRouteData: ( state, action ) => {
+    setRouteData: (state, action: PayloadAction<RouteData>) => {
       state.routeData = action.payload;
-    }
+    },
+    setDeparture: (state, action: PayloadAction<number>) => {
+      if (state.currentCarriage !== null) {
+        state.currentCarriage.seats.forEach((seat) => {
+          if (seat.index === action.payload && seat.available === "active") {
+            seat.available = true;
+            state.departure = state.departure.filter((item: number) => item !== action.payload);
+          } else if (seat.index === action.payload) {
+            state.departure.push(action.payload);
+            seat.available = "active";
+          }
+        });
+      }
+    },
   },
-  extraReducers( builder ) {
-    builder.addCase( fetchSelectTrain.pending, ( state ) => {
-      state.loading = true;
-      state.error = null;
-    } ).addCase( fetchSelectTrain.fulfilled, ( state, action ) => {
-      state.data = action.payload;
-      state.currentCarriage = action.payload[ 0 ]
-      state.allSeats = calculateAvailableSeats( state.currentCarriage.seats, 'all' )
-      state.topSeats = calculateAvailableSeats( state.currentCarriage.seats, 'top' )
-      state.bottomSeats = calculateAvailableSeats( state.currentCarriage.seats, 'bottom' )
-      state.loading = false;
-      state.error = null;
-    } ).addCase( fetchSelectTrain.rejected, ( state, action ) => {
-      state.error = action.payload;
-      state.loading = false;
-    } )
-  }
-} );
+  extraReducers(builder) {
+    builder
+      .addCase(fetchSelectTrain.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        fetchSelectTrain.fulfilled,
+        (state, action: PayloadAction<Data>) => {
+          state.data = action.payload;
+          state.currentCarriage = action.payload[0];
+          if (state.currentCarriage !== null) {
+            state.allSeats = calculateAvailableSeats(
+              state.currentCarriage.seats,
+              "all"
+            );
+            state.topSeats = calculateAvailableSeats(
+              state.currentCarriage.seats,
+              "top"
+            );
+            state.bottomSeats = calculateAvailableSeats(
+              state.currentCarriage.seats,
+              "bottom"
+            );
+          }
+          state.loading = false;
+          state.error = null;
+        }
+      )
+      .addCase(fetchSelectTrain.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      });
+  },
+});
 
-export const {
-  setData, setRouteData
-} = selectedSlice.actions;
+export const { setRouteData, setDeparture } = selectedSlice.actions;
 
 export default selectedSlice;
