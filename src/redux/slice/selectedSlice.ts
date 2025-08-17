@@ -132,6 +132,14 @@ export type SelectedSlice = {
   bottomSeats: number | null;
   departure: number[];
   arrival: number[];
+  totalCoast: ITotalCoast | null;
+};
+
+export type ITotalCoast = {
+  topSeatsCountDeparture: number;
+  bottomSeatsCountDeparture: number;
+  topSeatsCountSeatsAvailable: number;
+  bottomCountSeatsAvailable: number;
 };
 
 const initialState: SelectedSlice = {
@@ -145,6 +153,7 @@ const initialState: SelectedSlice = {
   bottomSeats: 0,
   departure: [],
   arrival: [],
+  totalCoast: null,
 };
 
 export const selectedSlice = createSlice({
@@ -184,6 +193,9 @@ export const selectedSlice = createSlice({
       state.topSeats = calculateAvailableSeats(updatedSeats, "top");
       state.bottomSeats = calculateAvailableSeats(updatedSeats, "bottom");
     },
+    setTotalCoast: (state, action: PayloadAction<ITotalCoast>) => {
+      state.totalCoast = action.payload;
+    },
   },
   extraReducers(builder) {
     builder
@@ -221,6 +233,7 @@ export const selectedSlice = createSlice({
   },
 });
 
-export const { setRouteData, setDeparture } = selectedSlice.actions;
+export const { setRouteData, setDeparture, setTotalCoast } =
+  selectedSlice.actions;
 
 export default selectedSlice;
