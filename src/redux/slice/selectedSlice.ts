@@ -155,17 +155,34 @@ export const selectedSlice = createSlice({
       state.routeData = action.payload;
     },
     setDeparture: (state, action: PayloadAction<number>) => {
-      if (state.currentCarriage !== null) {
-        state.currentCarriage.seats.forEach((seat) => {
-          if (seat.index === action.payload && seat.available === "active") {
-            seat.available = true;
-            state.departure = state.departure.filter((item: number) => item !== action.payload);
-          } else if (seat.index === action.payload) {
-            state.departure.push(action.payload);
-            seat.available = "active";
-          }
-        });
+      if (!state.currentCarriage) return;
+      const seatIndex = action.payload;
+
+      // создаём новый массив мест — не мутируем
+      const updatedSeats = state.currentCarriage.seats.map((seat) => {
+        if (seat.index !== seatIndex) return seat;
+        return seat.available === "active"
+          ? { ...seat, available: true }
+          : { ...seat, available: "active" as const };
+      });
+
+      // заменяем currentCarriage на новый объект (новая ссылка)
+      state.currentCarriage = {
+        ...state.currentCarriage,
+        seats: updatedSeats,
+      };
+
+      // обновляем массив выбранных departure
+      if (state.departure.includes(seatIndex)) {
+        state.departure = state.departure.filter((n) => n !== seatIndex);
+      } else {
+        state.departure = [...state.departure, seatIndex];
       }
+
+      // пересчитываем глобальные счётчики в слайсе
+      state.allSeats = calculateAvailableSeats(updatedSeats, "all");
+      state.topSeats = calculateAvailableSeats(updatedSeats, "top");
+      state.bottomSeats = calculateAvailableSeats(updatedSeats, "bottom");
     },
   },
   extraReducers(builder) {

@@ -29,8 +29,7 @@ export const Map = ({ type, seats }: { type: SupportedScheme, seats: ISeat[] }) 
   }, {})
 
   useEffect(() => {
-
-  }, [currentCarriage])
+  }, [currentCarriage?.seats])
 
   const handleClickSeat = (num: number): void => {
     dispatch(setDeparture(num))
