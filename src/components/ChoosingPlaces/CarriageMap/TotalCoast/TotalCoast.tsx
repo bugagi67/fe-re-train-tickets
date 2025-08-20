@@ -1,28 +1,12 @@
-import { useSelector } from "react-redux"
-import type { RootState } from "../../../../redux/store/store"
-import { setTotalCoast } from "../../../../redux/slice/selectedSlice";
 import { useCalculateTotalCoast } from "./useCalculateTotalCoast";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 
 export const TotalCoast = () => {
-    const { totalCoast } = useSelector((state: RootState) => state.selectedSlice);
-    const dispatch = useDispatch();
-    const {
-        // topSeatsCountDeparture,
-        // bottomSeatsCountDeparture,
-        // sideCountSeatsDeparture,
-        // topSeatsCountSeatsArrival,
-        // sideCountSeatsArrival,
-        // bottomCountSeatsArrival,
-        // linensPrice,
-        // wiFiPrice,
-        // isLinensIncluded,
-        total, countSeats } = useCalculateTotalCoast();
-
+    const calc = useCalculateTotalCoast();
+    const total = calc?.total ?? 0;
+    const countSeats = calc?.countSeats ?? 0;
 
     return (
-        <div>Вы заказали {countSeats} {countSeats > 4 ? "билетов" : countSeats === 1 ? "билет" : "билета"}, на сумму {total}
+        <div style={{ padding: "0 40px 30px", display: "flex", justifyContent: "flex-end", alignItems: "center", fontSize: "2.4rem", fontWeight: "700", color: "#928F94" }}>Вы заказали &nbsp;<span style={{color: "#000000"}}> {countSeats} </span> &nbsp; {countSeats > 4 || countSeats === 0 ? "билетов" : countSeats === 1 ? "билет" : "билета"}, на сумму &nbsp;<span style={{color: "#FFA800", fontSize: "3rem"}}>{total}</span>
             <svg style={{ marginLeft: "10px" }}
                 width="16"
                 height="19"

@@ -26,10 +26,13 @@ export const CarriageMap = () => {
     <div>
       <TypeOfCarriage />
       <div className={styles.carriage_count}>
-        <div><span className={styles.carriage}>Вагоны</span>{data.map((item: IData) =>
-          <span
-            className={styles.carriage_name}
-            key={item.coach._id}>{item.coach.name}</span>)}</div>
+        <div>
+          <span className={styles.carriage}>Вагоны</span>
+          {data.map((item: IData) =>
+            <span
+              className={styles.carriage_name}
+              key={item.coach._id}>{item.coach.name}</span>)}
+        </div>
         <div className={styles.description_carriage}>Нумерация вагонов начинается с головы поезда</div>
       </div>
       <div className={styles.train_info}>

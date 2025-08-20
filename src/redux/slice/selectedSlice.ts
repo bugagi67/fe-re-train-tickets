@@ -2,6 +2,11 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { fetchSelectTrain } from "../thunks/asyncThunks.ts";
 import { calculateAvailableSeats } from "../../components/ChoosingPlaces/helpers/calculateAvailableSeats.ts";
 
+export type IAddOrChangeSelectParameter = {
+  name: keyof SelectedSlice;
+  value: unknown;
+};
+
 export type Data = Array<IData>;
 
 export type IData = {
@@ -32,21 +37,21 @@ export type ISeats = Array<{
 
 export type RouteData = {
   total_count: number;
-  items: [
-    {
-      have_first_class: boolean;
-      have_second_class: boolean;
-      have_third_class: boolean;
-      have_fourth_class: boolean;
-      have_wifi: boolean;
-      have_air_conditioning: boolean;
-      is_express: boolean;
-      min_price: number;
-      arrival: IRoute;
-      departure: IRoute;
-      total_avaliable_seats: number;
-    }
-  ];
+  items: ItemRouteData[];
+};
+
+type ItemRouteData = {
+  have_first_class: boolean;
+  have_second_class: boolean;
+  have_third_class: boolean;
+  have_fourth_class: boolean;
+  have_wifi: boolean;
+  have_air_conditioning: boolean;
+  is_express: boolean;
+  min_price: number;
+  arrival: IRoute;
+  departure: IRoute;
+  total_avaliable_seats: number;
 };
 
 export type IRoute = {
@@ -125,14 +130,18 @@ export type SelectedSlice = {
   loading: boolean;
   error: unknown | null;
   data: Data | null;
-  routeData: RouteData | null;
+  routeData: ItemRouteData | null;
   currentCarriage: IData | null;
   allSeats: number | null;
   topSeats: number | null;
   bottomSeats: number | null;
   departure: number[];
   arrival: number[];
-  totalCoast: ITotalCoast | null;
+  totalCoast: number | null;
+  isWifi: boolean;
+  isLinen: boolean;
+  isNutrition: boolean;
+  isCondition: boolean;
 };
 
 export type ITotalCoast = {
@@ -140,6 +149,8 @@ export type ITotalCoast = {
   bottomSeatsCountDeparture: number;
   topSeatsCountSeatsAvailable: number;
   bottomCountSeatsAvailable: number;
+  total: number;
+  countSeats: number;
 };
 
 const initialState: SelectedSlice = {
@@ -154,13 +165,24 @@ const initialState: SelectedSlice = {
   departure: [],
   arrival: [],
   totalCoast: null,
+  isWifi: false,
+  isLinen: false,
+  isNutrition: false,
+  isCondition: false,
 };
 
 export const selectedSlice = createSlice({
   name: "selectedTrain",
   initialState,
   reducers: {
-    setRouteData: (state, action: PayloadAction<RouteData>) => {
+    addOrChangeSelectParameter: (
+      state,
+      action: PayloadAction<IAddOrChangeSelectParameter>
+    ) => {
+      const { name, value } = action.payload;
+      (state as unknown as Record<keyof SelectedSlice, unknown>)[name] = value;
+    },
+    setRouteData: (state, action: PayloadAction<ItemRouteData>) => {
       state.routeData = action.payload;
     },
     setDeparture: (state, action: PayloadAction<number>) => {
@@ -193,7 +215,7 @@ export const selectedSlice = createSlice({
       state.topSeats = calculateAvailableSeats(updatedSeats, "top");
       state.bottomSeats = calculateAvailableSeats(updatedSeats, "bottom");
     },
-    setTotalCoast: (state, action: PayloadAction<ITotalCoast>) => {
+    setTotalCoast: (state, action: PayloadAction<number>) => {
       state.totalCoast = action.payload;
     },
   },
@@ -233,7 +255,11 @@ export const selectedSlice = createSlice({
   },
 });
 
-export const { setRouteData, setDeparture, setTotalCoast } =
-  selectedSlice.actions;
+export const {
+  setRouteData,
+  setDeparture,
+  setTotalCoast,
+  addOrChangeSelectParameter,
+} = selectedSlice.actions;
 
 export default selectedSlice;

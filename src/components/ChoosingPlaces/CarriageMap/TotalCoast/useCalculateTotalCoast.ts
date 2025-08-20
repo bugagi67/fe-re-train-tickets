@@ -1,10 +1,12 @@
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../../redux/store/store";
+import { useDispatch } from "react-redux";
+import { setTotalCoast } from "../../../../redux/slice/selectedSlice";
 
 export const useCalculateTotalCoast = () => {
-  const { departure, arrival, currentCarriage } = useSelector(
-    (state: RootState) => state.selectedSlice
-  );
+  const dispatch = useDispatch();
+  const { departure, arrival, currentCarriage, isWifi, isNutrition, isLinen } =
+    useSelector((state: RootState) => state.selectedSlice);
 
   if (currentCarriage) {
     const topSeatsCountDeparture: number =
@@ -32,7 +34,7 @@ export const useCalculateTotalCoast = () => {
       currentCarriage.coach.side_price;
 
     const isLinensIncluded: boolean = currentCarriage.coach.is_linens_included;
-    // const wiFiPrice: number = currentCarriage.coach.wifi_price;
+    const wiFiPrice: number = currentCarriage.coach.wifi_price;
     const linensPrice: number = isLinensIncluded
       ? 0
       : currentCarriage.coach.linens_price;
@@ -44,8 +46,13 @@ export const useCalculateTotalCoast = () => {
       topSeatsCountSeatsArrival +
       sideCountSeatsArrival +
       bottomCountSeatsArrival +
-      // wiFiPrice +
-      linensPrice;
+      (isWifi ? wiFiPrice : 0) +
+      (currentCarriage.coach.is_linens_included
+        ? 0
+        : isLinen
+        ? linensPrice
+        : 0) +
+      (isNutrition ? 300 : 0);
 
     const countSeats: number =
       departure.filter((item) => item % 2 === 0 && item < 33).length +
@@ -55,6 +62,8 @@ export const useCalculateTotalCoast = () => {
       departure.filter((item) => item > 32).length +
       arrival.filter((item) => item > 32).length;
 
+    dispatch(setTotalCoast(total));
+
     return {
       topSeatsCountDeparture,
       bottomSeatsCountDeparture,
@@ -63,7 +72,7 @@ export const useCalculateTotalCoast = () => {
       sideCountSeatsArrival,
       bottomCountSeatsArrival,
       linensPrice,
-      // wiFiPrice,
+      wiFiPrice,
       isLinensIncluded,
       total,
       countSeats,
